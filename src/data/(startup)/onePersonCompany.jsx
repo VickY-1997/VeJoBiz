@@ -1,4 +1,6 @@
 "use client";
+
+import React from "react";
 import { motion } from "framer-motion";
 import {
   User,
@@ -7,150 +9,182 @@ import {
   FileText,
   Workflow,
   Verified,
+  CheckCircle2,
 } from "lucide-react";
 
+// Benefit Card
+const BenefitCard = ({ icon, title, desc }) => (
+  <motion.div
+    whileHover={{ scale: 1.03, y: -5 }}
+    transition={{ type: "spring", stiffness: 300 }}
+    className="p-4 bg-white/90 backdrop-blur-lg border border-pink-200 rounded-xl shadow-md h-full"
+  >
+    <div className="mb-2 text-pink-500">{icon}</div>
+    <h3 className="text-base font-semibold text-gray-800 mb-1">{title}</h3>
+    <p className="text-gray-600 text-sm">{desc}</p>
+  </motion.div>
+);
+
+// Requirement Item
+const RequirementItem = ({ text, index }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5, delay: index * 0.1 }}
+    className="flex items-start space-x-3 p-3 bg-blue-50/70 rounded-lg border border-blue-100 hover:shadow-sm hover:bg-blue-100 transition-all"
+  >
+    <CheckCircle2 className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+    <p className="text-gray-700 text-sm">{text}</p>
+  </motion.div>
+);
+
+// Timeline Step
+const TimelineStep = ({ index, title, description }) => (
+  <motion.div
+    initial={{ opacity: 0, x: 50 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    transition={{ duration: 0.6, delay: index * 0.2 }}
+    className="relative pl-12 mb-8 last:mb-0"
+  >
+    <div className="absolute left-0 top-0 flex items-center justify-center">
+      <div className="h-9 w-9 flex items-center justify-center rounded-full bg-gradient-to-br from-purple-600 to-pink-500 text-white text-sm font-bold shadow ring-4 ring-purple-100">
+        {index + 1}
+      </div>
+    </div>
+    <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+      <h3 className="font-bold text-purple-700 text-sm mb-1">{title}</h3>
+      <p className="text-gray-600 text-sm">{description}</p>
+    </div>
+  </motion.div>
+);
+
+// Main Page
 const OnePersonCompany = () => {
+  const benefits = [
+    { icon: <ShieldCheck className="w-6 h-6" />, title: "Limited Liability", desc: "Your personal assets are protected from business risks and debts." },
+    { icon: <Building2 className="w-6 h-6" />, title: "Separate Legal Entity", desc: "The company has its own legal identity, distinct from you." },
+    { icon: <Verified className="w-6 h-6" />, title: "Enhanced Credibility", desc: "Gain more trust with banks, clients, and vendors as a registered company." },
+    { icon: <Workflow className="w-6 h-6" />, title: "Complete Control", desc: "As the sole member, you are the ultimate decision-maker." },
+    { icon: <FileText className="w-6 h-6" />, title: "Simpler Compliance", desc: "Enjoy fewer compliance requirements compared to a private limited company." },
+    { icon: <User className="w-6 h-6" />, title: "Perfect for Solopreneurs", desc: "The ideal structure for a single founder to operate formally." },
+  ];
+
+  const requirements = [
+    "One individual who is an Indian citizen and resident.",
+    "A nominee, who is also an Indian citizen and resident.",
+    "Digital Signature Certificate (DSC) for the director.",
+    "Director Identification Number (DIN) for the director.",
+    "A unique and approved name for the company.",
+    "A registered office address within India.",
+  ];
+
+  const processSteps = [
+    { title: "Step 1: Obtain DSC and DIN", description: "Apply for the Digital Signature Certificate and Director Identification Number, required for online filings." },
+    { title: "Step 2: Reserve Company Name", description: "File for your chosen company name using MCA's RUN (Reserve Unique Name) service." },
+    { title: "Step 3: Prepare Documents", description: "We draft MOA and AOA for your OPC, outlining business objectives and internal rules." },
+    { title: "Step 4: File Incorporation", description: "We submit the SPICe+ form with required attachments for incorporation, PAN, and TAN." },
+    { title: "Step 5: Receive Certificate", description: "Once approved, you'll receive your Certificate of Incorporation and your OPC is live." },
+  ];
+
   return (
-    <main className="bg-gradient-to-tr from-blue-100 via-white to-purple-100 text-gray-800">
+    <main className="bg-gray-50 text-gray-800 font-sans">
       {/* Hero */}
-      <section className="text-center py-20 px-6">
+      <section className="text-center py-10 px-4 bg-gradient-to-br from-purple-50 via-white to-blue-50">
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-700 via-pink-500 to-red-500"
+          className="text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-700 via-pink-600 to-blue-600"
         >
           One Person Company (OPC) Registration
         </motion.h1>
-        <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-600">
-          Legal identity for solo founders — Enjoy limited liability, complete control, and easy compliance.
-        </p>
+        <motion.p 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mt-3 max-w-2xl mx-auto text-base text-gray-600"
+        >
+          The ideal legal structure for solo founders. Enjoy limited liability, full control, and enhanced credibility.
+        </motion.p>
       </section>
 
       {/* What is OPC */}
-      <section className="py-16 px-6 bg-gradient-to-br from-purple-50 to-blue-50 rounded-3xl">
+      <section className="py-10 px-4">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
           <motion.div
-            whileHover={{ scale: 1.02 }}
-            className="bg-white/80 backdrop-blur-md p-8 rounded-2xl shadow-xl border border-purple-200"
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
           >
-            <User className="w-10 h-10 text-purple-600 mb-4" />
-            <h2 className="text-2xl font-bold text-purple-700 mb-2">What is an OPC?</h2>
-            <p className="text-gray-700 text-lg leading-relaxed">
-              OPC is a business structure that allows a solo entrepreneur to enjoy the benefits of a private limited company while maintaining complete control.
+            <h2 className="text-2xl font-bold text-gray-800 mb-3">What is a One Person Company?</h2>
+            <p className="text-gray-600 text-sm mb-2">
+              A One Person Company (OPC) is a structure introduced by the Companies Act, 2013. It allows a single entrepreneur to operate with limited liability.
+            </p>
+            <p className="text-gray-600 text-sm">
+              Your personal assets remain protected from business debts. It combines control with corporate protection.
             </p>
           </motion.div>
-
-          <div>
-            <motion.img
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="flex justify-center"
+          >
+            <img
               src="https://img.freepik.com/free-vector/business-consulting-concept-illustration_114360-9240.jpg"
-              alt="OPC illustration"
-              className="rounded-xl w-full"
+              alt="OPC Illustration"
+              className="rounded-xl w-full max-w-sm"
             />
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Benefits */}
-      <section className="py-20 px-6 bg-gradient-to-br from-pink-50 to-red-100 rounded-3xl mt-16">
+      <section className="py-10 px-4 bg-gradient-to-br from-pink-50 to-red-50">
         <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-pink-700 mb-12">
-            Benefits of Registering an OPC
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8 text-left">
-            {[
-              {
-                icon: <ShieldCheck className="w-8 h-8 text-green-600" />,
-                title: "Limited Liability",
-                desc: "Your personal assets are protected from business risks.",
-              },
-              {
-                icon: <Building2 className="w-8 h-8 text-blue-600" />,
-                title: "Legal Identity",
-                desc: "Operate with a company name, separate from personal identity.",
-              },
-              {
-                icon: <Verified className="w-8 h-8 text-purple-600" />,
-                title: "High Trust",
-                desc: "Gain more credibility with banks and vendors.",
-              },
-              {
-                icon: <Workflow className="w-8 h-8 text-orange-600" />,
-                title: "Full Control",
-                desc: "You’re the sole decision-maker and director.",
-              },
-              {
-                icon: <FileText className="w-8 h-8 text-teal-600" />,
-                title: "Easy Compliance",
-                desc: "Less paperwork than a private limited company.",
-              },
-              {
-                icon: <User className="w-8 h-8 text-pink-600" />,
-                title: "Perfect for Solopreneurs",
-                desc: "Run your business professionally under a company structure.",
-              },
-            ].map((item, i) => (
-              <motion.div
-                key={i}
-                whileHover={{ scale: 1.03 }}
-                className="p-6 bg-white/90 backdrop-blur-lg border border-pink-200 rounded-xl shadow-xl"
-              >
-                <div className="mb-3">{item.icon}</div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-1">{item.title}</h3>
-                <p className="text-gray-600 text-sm">{item.desc}</p>
-              </motion.div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-6">Advantages of an OPC</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 text-left">
+            {benefits.map((item, i) => (
+              <BenefitCard key={i} {...item} />
             ))}
           </div>
         </div>
       </section>
 
       {/* Requirements */}
-      <section className="py-20 px-6 bg-gradient-to-br from-blue-50 to-sky-100 mt-16 rounded-3xl">
+      <section className="py-10 px-4 bg-white">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+            Eligibility & Requirements
+          </h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            {requirements.map((req, i) => (
+              <RequirementItem key={i} text={req} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Process */}
+      <section className="py-10 px-4 bg-gray-50">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-blue-700 mb-6 text-center">Requirements</h2>
-          <ul className="grid md:grid-cols-2 gap-4 text-lg text-gray-700 list-disc list-inside">
-            <li>One Indian resident director & shareholder</li>
-            <li>Nominee for sole member</li>
-            <li>Digital Signature Certificate (DSC)</li>
-            <li>Director Identification Number (DIN)</li>
-            <li>Registered business address in India</li>
-          </ul>
+          <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">
+            Our Simple 5-Step Registration Process
+          </h2>
+          <div className="relative">
+            <div className="absolute left-5 top-0 h-full w-0.5 bg-purple-200" aria-hidden="true"></div>
+            {processSteps.map((step, i) => (
+              <TimelineStep
+                key={i}
+                index={i}
+                title={step.title}
+                description={step.description}
+              />
+            ))}
+          </div>
         </div>
-      </section>
-
-      {/* Registration Process */}
-      <section className="py-20 px-6 bg-gradient-to-br from-yellow-50 to-orange-100 mt-16 rounded-3xl">
-        <div className="max-w-5xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-orange-700 mb-8">How It Works</h2>
-          <ol className="text-left space-y-4 list-decimal list-inside text-lg text-gray-700">
-            <li>Apply for DSC and DIN</li>
-            <li>Reserve your company name</li>
-            <li>Prepare MOA and AOA documents</li>
-            <li>Submit forms for incorporation</li>
-            <li>Receive Certificate of Incorporation</li>
-          </ol>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="px-6 py-20 text-center bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 text-white rounded-t-3xl mt-20">
-        <motion.h3
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-3xl md:text-4xl font-bold"
-        >
-          Register Your OPC with Experts!
-        </motion.h3>
-        <p className="mt-4 text-lg mb-8">
-          100% Online Process. Fast, Secure & Affordable with Legal Support.
-        </p>
-        <button className="bg-white text-purple-700 px-6 py-3 rounded-full font-semibold text-lg hover:bg-gray-100 shadow-md">
-          🚀 Get Started Today
-        </button>
       </section>
     </main>
   );

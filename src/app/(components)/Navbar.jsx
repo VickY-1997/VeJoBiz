@@ -45,6 +45,9 @@ import {
   FaCalendarCheck,
   FaHandsHelping,
   FaBookOpen,
+  FaShoppingCart,
+  FaCloud,
+  FaRedo,
 } from "react-icons/fa";
 
 const caprasimo = Caprasimo({
@@ -69,7 +72,9 @@ function Navbar({ className }) {
         href={`/service/${slug}`}
         className="flex items-center gap-2 text-left"
       >
-        <Icon className={`w-5 h-5 mr-2 ${color} group-hover:scale-110 transition-transform duration-200`} />
+        <Icon
+          className={`w-5 h-5 mr-2 ${color} group-hover:scale-110 transition-transform duration-200`}
+        />
         {label}
       </HoveredLink>
     ));
@@ -186,7 +191,7 @@ function Navbar({ className }) {
           </MenuItem>
 
           {/* === Compliance === */}
-          <MenuItem setActive={setActive} active={active} item="Compliance">
+          <MenuItem setActive={setActive} active={active} href="/compliance" item="Compliance">
             <div className={`grid grid-cols-3 gap-2 text-sm p-2 ${reemKufi.className}`}>
               {renderLinks([
                 ["fdi-filing-rbi", "FDI Filing", FaRupeeSign, "text-green-600"],
@@ -205,10 +210,19 @@ function Navbar({ className }) {
             </div>
           </MenuItem>
 
-          {/* Web Dev Section */}
-          <MenuItem setActive={setActive} active={active} item="Web Dev">
-            <div className={`grid grid-cols-2 gap-2 text-sm ${reemKufi.className}`}>
-              {renderLinks([["gSTRegistration", "GST Registration", FaUniversity, "text-indigo-500"]])}
+          {/* ✅ NEW Web Dev Section */}
+          <MenuItem setActive={setActive} active={active} href="/webDev" item="Web Dev">
+            <div className={`grid grid-cols-2 gap-2 text-sm p-2 ${reemKufi.className}`}>
+              {renderLinks([
+                ["portfolio-website", "Portfolio Website", FaUserCircle, "text-blue-500"],
+                ["business-website", "Business Website", FaBriefcase, "text-green-500"],
+                ["ecommerce-website", "Ecommerce Website", FaShoppingCart, "text-pink-600"],
+                ["blog-cms", "Blog/CMS", FaBookOpen, "text-purple-600"],
+                ["landing-page", "Landing Page", FaRocket, "text-orange-500"],
+                ["seo-optimization", "SEO Optimization", FaChartLine, "text-yellow-600"],
+                ["hosting-maintenance", "Hosting & Maintenance", FaCloud, "text-cyan-600"],
+                ["website-redesign", "Website Redesign", FaRedo, "text-rose-500"],
+              ])}
             </div>
           </MenuItem>
         </Menu>

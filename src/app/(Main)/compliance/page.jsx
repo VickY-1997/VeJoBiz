@@ -3,18 +3,22 @@
 import React from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import {
-  Briefcase,
-  Users,
-  UserPlus,
-  Landmark,
-  ShieldCheck,
   Building2,
-  Globe,
+  FileText,
+  BookCheck,
+  Briefcase,
+  Users2,
+  BookOpen,
+  ShieldCheck,
+  FileBarChart2,
+  ClipboardList,
+  UserCog,
+  ClipboardCheck,
+  Banknote,
   ArrowRight,
-  Star,
 } from "lucide-react";
 
-// Tilt hook for 3D card effect
+// Tilt hook
 const useTilt = () => {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -29,7 +33,6 @@ const useTilt = () => {
     const rect = e.currentTarget.getBoundingClientRect();
     const xPct = (e.clientX - rect.left) / rect.width - 0.5;
     const yPct = (e.clientY - rect.top) / rect.height - 0.5;
-
     x.set(xPct);
     y.set(yPct);
   };
@@ -42,82 +45,33 @@ const useTilt = () => {
   return { rotateX, rotateY, handleMouseMove, handleMouseLeave };
 };
 
-const startupServices = [
-  {
-    slug: "proprietorship",
-    name: "Proprietorship",
-    description: "Ideal for solo entrepreneurs. Easy setup, minimal compliance, and complete control.",
-    icon: Briefcase,
-    color: "#f59e0b",
-  },
-  {
-    slug: "partnership",
-    name: "Partnership",
-    description: "For two or more people running a business together. Shared responsibilities and profits.",
-    icon: Users,
-    color: "#ec4899",
-  },
-  {
-    slug: "one-person-company",
-    name: "One Person Company",
-    description: "For single founders who want corporate benefits like limited liability.",
-    icon: UserPlus,
-    color: "#8b5cf6",
-  },
-  {
-    slug: "llp",
-    name: "LLP Registration",
-    description: "Combines partnership flexibility with limited liability protection.",
-    icon: Landmark,
-    color: "#22c55e",
-  },
-  {
-    slug: "private-limited-company",
-    name: "Private Limited Company",
-    description: "Preferred for startups. Offers limited liability and is investor-friendly.",
-    icon: ShieldCheck,
-    color: "#3b82f6",
-    featured: true,
-  },
-  {
-    slug: "public-limited-company",
-    name: "Public Limited Company",
-    description: "For large businesses planning to raise capital from the public and get listed.",
-    icon: Building2,
-    color: "#ef4444",
-  },
-  {
-    slug: "indian-subsidiary",
-    name: "Indian Subsidiary",
-    description: "For foreign companies looking to expand their operations into the Indian market.",
-    icon: Globe,
-    color: "#14b8a6",
-  },
+const complianceServices = [
+  { name: "FDI Filing", description: "Ensure legal compliance for foreign direct investment reporting.", icon: Banknote, color: "#f97316" },
+  { name: "FLA Return", description: "Mandatory annual return for companies receiving FDI or ODI.", icon: FileBarChart2, color: "#6366f1" },
+  { name: "FSSAI Renewal", description: "Renew your FSSAI license on time to avoid penalties.", icon: ShieldCheck, color: "#10b981" },
+  { name: "FSSAI Return", description: "File your FSSAI annual and semi-annual returns as per rules.", icon: ClipboardCheck, color: "#f43f5e" },
+  { name: "Business Plan", description: "Get investor-ready business plans tailored for your vision.", icon: BookOpen, color: "#8b5cf6" },
+  { name: "HR & Payroll", description: "Complete payroll processing, salary slips, and HR services.", icon: UserCog, color: "#ec4899" },
+  { name: "PF Return", description: "Monthly Provident Fund return filing to stay compliant.", icon: ClipboardList, color: "#0ea5e9" },
+  { name: "ESI Return", description: "File your Employee State Insurance returns without hassle.", icon: FileText, color: "#f59e0b" },
+  { name: "PT Return", description: "File your professional tax return accurately and timely.", icon: FileText, color: "#14b8a6" },
+  { name: "Partnership", description: "Partnership firm compliance for filing returns and records.", icon: Users2, color: "#ef4444" },
+  { name: "Proprietorship", description: "Easy compliance management for proprietorship businesses.", icon: Briefcase, color: "#3b82f6" },
+  { name: "Bookkeeping", description: "Accurate record-keeping for GST, TDS, and accounting needs.", icon: BookCheck, color: "#22c55e" },
 ];
 
-// Reusable 3D Service Card Component
-const StartupServiceCard = ({ service }) => {
+const ComplianceCard = ({ service }) => {
   const { rotateX, rotateY, handleMouseMove, handleMouseLeave } = useTilt();
   const Icon = service.icon;
 
   return (
-    <a href={`/service/${service.slug}`} className="block cursor-pointer group">
+    <div className="group cursor-pointer">
       <motion.div
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        style={{
-          rotateX,
-          rotateY,
-          transformStyle: "preserve-3d",
-        }}
+        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
         className="relative w-full min-h-[220px] rounded-2xl bg-[#161B22]/80 backdrop-blur-sm border border-gray-800 shadow-xl transition-all duration-300 group-hover:border-blue-500/80 group-hover:shadow-blue-500/20"
       >
-        {service.featured && (
-          <div className="absolute -top-3 right-4 z-20 flex items-center gap-1 bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-lg">
-            <Star size={12} className="fill-white" />
-            Most Popular
-          </div>
-        )}
         <div
           style={{
             transform: "translateZ(30px)",
@@ -142,40 +96,33 @@ const StartupServiceCard = ({ service }) => {
           </div>
         </div>
       </motion.div>
-    </a>
+    </div>
   );
 };
 
-// 3D Heading Component
 const Heading = ({ children }) => {
   const { rotateX, rotateY, handleMouseMove, handleMouseLeave } = useTilt();
-
   return (
     <motion.div
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{
-        rotateX,
-        rotateY,
-        transformStyle: "preserve-3d",
-        perspective: "1000px",
-      }}
+      style={{ rotateX, rotateY, transformStyle: "preserve-3d", perspective: "1000px" }}
       className="max-w-4xl mx-auto text-center mb-12"
     >
       <motion.h1
         style={{ transform: "translateZ(50px)" }}
-        className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 mb-3"
+        className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 mb-3"
       >
-        {children}
+        Complete Compliance Management
       </motion.h1>
     </motion.div>
   );
 };
 
-export default function StartupServicesPage() {
+export default function CompliancePage() {
   return (
     <div className="min-h-screen bg-[#0D1117] text-gray-200 px-4 py-16 relative overflow-hidden">
-      {/* Animated background */}
+      {/* Blurred Blobs */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-purple-600 rounded-full mix-blend-lighten filter blur-3xl opacity-20 animate-blob"></div>
       <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600 rounded-full mix-blend-lighten filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
       <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-pink-600 rounded-full mix-blend-lighten filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
@@ -187,15 +134,15 @@ export default function StartupServicesPage() {
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="max-w-5xl mx-auto text-center mb-12"
         >
-          <Heading>Build Your Business Foundation</Heading>
+          <Heading>Complete Compliance Management</Heading>
           <p className="text-md text-gray-400 max-w-2xl mx-auto">
-            Choosing the right business structure is the first critical step. We simplify the entire registration process, providing clarity and expert guidance for every type of entrepreneur.
+            Stay legally compliant with expert support for FDI, FSSAI, PF, PT, bookkeeping, and more—tailored for every business type.
           </p>
         </motion.div>
 
-        {/* Card Grid */}
+        {/* Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto">
-          {startupServices.map((service, index) => (
+          {complianceServices.map((service, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 50, scale: 0.95 }}
@@ -203,11 +150,12 @@ export default function StartupServicesPage() {
               transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
               viewport={{ once: true }}
             >
-              <StartupServiceCard service={service} />
+              <ComplianceCard service={service} />
             </motion.div>
           ))}
         </div>
 
+        {/* Call to Action */}
         <div className="text-center mt-12">
           <p className="text-gray-500">
             Need help choosing the right structure?{" "}
@@ -219,7 +167,7 @@ export default function StartupServicesPage() {
         </div>
       </div>
 
-      {/* Global Styles */}
+      {/* Global Animation Styles */}
       <style jsx global>{`
         .animate-blob {
           animation: blob 8s infinite;

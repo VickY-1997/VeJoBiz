@@ -18,11 +18,15 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    const hasVisited = localStorage.getItem("hasVisited");
-    if (!hasVisited) {
+    const lastVisit = localStorage.getItem("lastVisitTime");
+    const now = new Date().getTime();
+    const SIX_HOURS = 6 * 60 * 60 * 1000;
+
+    if (!lastVisit || now - parseInt(lastVisit) > SIX_HOURS) {
       setIsLoading(true);
       setPlayAnimation(true);
-      localStorage.setItem("hasVisited", "true");
+      localStorage.setItem("lastVisitTime", now.toString());
+
       setTimeout(() => {
         setIsLoading(false);
         setShowPage(true);

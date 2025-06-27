@@ -3,18 +3,22 @@
 import React from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import {
-  Briefcase,
-  Users,
-  UserPlus,
-  Landmark,
-  ShieldCheck,
-  Building2,
+  LayoutDashboard,
+  Smartphone,
   Globe,
+  User,
+  FileText,
+  ShoppingCart,
+  ClipboardSignature,
+  BarChart,
+  TrendingUp,
+  RefreshCw,
+  Search,
+  Paintbrush,
+  LifeBuoy,
   ArrowRight,
-  Star,
 } from "lucide-react";
 
-// Tilt hook for 3D card effect
 const useTilt = () => {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -29,7 +33,6 @@ const useTilt = () => {
     const rect = e.currentTarget.getBoundingClientRect();
     const xPct = (e.clientX - rect.left) / rect.width - 0.5;
     const yPct = (e.clientY - rect.top) / rect.height - 0.5;
-
     x.set(xPct);
     y.set(yPct);
   };
@@ -42,82 +45,33 @@ const useTilt = () => {
   return { rotateX, rotateY, handleMouseMove, handleMouseLeave };
 };
 
-const startupServices = [
-  {
-    slug: "proprietorship",
-    name: "Proprietorship",
-    description: "Ideal for solo entrepreneurs. Easy setup, minimal compliance, and complete control.",
-    icon: Briefcase,
-    color: "#f59e0b",
-  },
-  {
-    slug: "partnership",
-    name: "Partnership",
-    description: "For two or more people running a business together. Shared responsibilities and profits.",
-    icon: Users,
-    color: "#ec4899",
-  },
-  {
-    slug: "one-person-company",
-    name: "One Person Company",
-    description: "For single founders who want corporate benefits like limited liability.",
-    icon: UserPlus,
-    color: "#8b5cf6",
-  },
-  {
-    slug: "llp",
-    name: "LLP Registration",
-    description: "Combines partnership flexibility with limited liability protection.",
-    icon: Landmark,
-    color: "#22c55e",
-  },
-  {
-    slug: "private-limited-company",
-    name: "Private Limited Company",
-    description: "Preferred for startups. Offers limited liability and is investor-friendly.",
-    icon: ShieldCheck,
-    color: "#3b82f6",
-    featured: true,
-  },
-  {
-    slug: "public-limited-company",
-    name: "Public Limited Company",
-    description: "For large businesses planning to raise capital from the public and get listed.",
-    icon: Building2,
-    color: "#ef4444",
-  },
-  {
-    slug: "indian-subsidiary",
-    name: "Indian Subsidiary",
-    description: "For foreign companies looking to expand their operations into the Indian market.",
-    icon: Globe,
-    color: "#14b8a6",
-  },
+const services = [
+  { name: "Responsive Website Design", description: "Mobile-friendly layouts that look great on any device.", icon: Smartphone, color: "#22c55e" },
+  { name: "Landing Page Development", description: "Conversion-focused pages for campaigns or ads.", icon: LayoutDashboard, color: "#f59e0b" },
+  { name: "Business Website", description: "Professional websites for small and local businesses.", icon: Globe, color: "#3b82f6" },
+  { name: "Personal Portfolio", description: "Modern portfolios to showcase your work.", icon: User, color: "#8b5cf6" },
+  { name: "Blog Integration", description: "SEO-ready blog setup using headless CMS.", icon: FileText, color: "#ec4899" },
+  { name: "E-Commerce Store", description: "Custom stores with product, payment & cart.", icon: ShoppingCart, color: "#14b8a6" },
+  { name: "Custom Web Forms", description: "Quote, booking, or contact forms.", icon: ClipboardSignature, color: "#f97316" },
+  { name: "Admin Dashboard UI", description: "Interactive dashboards built with React/Next.js.", icon: BarChart, color: "#6366f1" },
+  { name: "SEO Optimization", description: "Better visibility with structured data & meta tags.", icon: Search, color: "#22d3ee" },
+  { name: "Performance Optimization", description: "Improve speed, Lighthouse score, and caching.", icon: TrendingUp, color: "#ef4444" },
+  { name: "Website Redesign", description: "Upgrade outdated sites with new UI/UX.", icon: Paintbrush, color: "#a855f7" },
+  { name: "Maintenance & Support", description: "Ongoing updates and bug fixes.", icon: LifeBuoy, color: "#0ea5e9" },
 ];
 
-// Reusable 3D Service Card Component
-const StartupServiceCard = ({ service }) => {
+const WebServiceCard = ({ service }) => {
   const { rotateX, rotateY, handleMouseMove, handleMouseLeave } = useTilt();
   const Icon = service.icon;
 
   return (
-    <a href={`/service/${service.slug}`} className="block cursor-pointer group">
+    <div className="group cursor-pointer">
       <motion.div
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        style={{
-          rotateX,
-          rotateY,
-          transformStyle: "preserve-3d",
-        }}
+        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
         className="relative w-full min-h-[220px] rounded-2xl bg-[#161B22]/80 backdrop-blur-sm border border-gray-800 shadow-xl transition-all duration-300 group-hover:border-blue-500/80 group-hover:shadow-blue-500/20"
       >
-        {service.featured && (
-          <div className="absolute -top-3 right-4 z-20 flex items-center gap-1 bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-lg">
-            <Star size={12} className="fill-white" />
-            Most Popular
-          </div>
-        )}
         <div
           style={{
             transform: "translateZ(30px)",
@@ -142,40 +96,13 @@ const StartupServiceCard = ({ service }) => {
           </div>
         </div>
       </motion.div>
-    </a>
+    </div>
   );
 };
 
-// 3D Heading Component
-const Heading = ({ children }) => {
-  const { rotateX, rotateY, handleMouseMove, handleMouseLeave } = useTilt();
-
-  return (
-    <motion.div
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        rotateX,
-        rotateY,
-        transformStyle: "preserve-3d",
-        perspective: "1000px",
-      }}
-      className="max-w-4xl mx-auto text-center mb-12"
-    >
-      <motion.h1
-        style={{ transform: "translateZ(50px)" }}
-        className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 mb-3"
-      >
-        {children}
-      </motion.h1>
-    </motion.div>
-  );
-};
-
-export default function StartupServicesPage() {
+const WebDevelopmentPage = () => {
   return (
     <div className="min-h-screen bg-[#0D1117] text-gray-200 px-4 py-16 relative overflow-hidden">
-      {/* Animated background */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-purple-600 rounded-full mix-blend-lighten filter blur-3xl opacity-20 animate-blob"></div>
       <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600 rounded-full mix-blend-lighten filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
       <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-pink-600 rounded-full mix-blend-lighten filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
@@ -187,15 +114,16 @@ export default function StartupServicesPage() {
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="max-w-5xl mx-auto text-center mb-12"
         >
-          <Heading>Build Your Business Foundation</Heading>
+          <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 mb-3">
+            Build Powerful Websites That Perform
+          </h1>
           <p className="text-md text-gray-400 max-w-2xl mx-auto">
-            Choosing the right business structure is the first critical step. We simplify the entire registration process, providing clarity and expert guidance for every type of entrepreneur.
+            Whether you need a sleek portfolio, dynamic dashboard, or an SEO-friendly business website—we offer professional solutions for every idea.
           </p>
         </motion.div>
 
-        {/* Card Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto">
-          {startupServices.map((service, index) => (
+          {services.map((service, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 50, scale: 0.95 }}
@@ -203,23 +131,22 @@ export default function StartupServicesPage() {
               transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
               viewport={{ once: true }}
             >
-              <StartupServiceCard service={service} />
+              <WebServiceCard service={service} />
             </motion.div>
           ))}
         </div>
 
         <div className="text-center mt-12">
           <p className="text-gray-500">
-            Need help choosing the right structure?{" "}
-            <a href="#" className="font-semibold text-blue-400 hover:underline">
-              Contact our experts
+            Ready to bring your idea online? {" "}
+            <a href="/contact" className="font-semibold text-blue-400 hover:underline">
+              Let’s build it together
             </a>
             .
           </p>
         </div>
       </div>
 
-      {/* Global Styles */}
       <style jsx global>{`
         .animate-blob {
           animation: blob 8s infinite;
@@ -247,4 +174,6 @@ export default function StartupServicesPage() {
       `}</style>
     </div>
   );
-}
+};
+
+export default WebDevelopmentPage;
